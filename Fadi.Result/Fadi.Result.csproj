@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!--<GenerateDocumentationFile>True</GenerateDocumentationFile>-->
+		<!--<NoWarn>$(NoWarn);CS1591</NoWarn>-->
+		<!-- disable documented compiler warnings -->
+
+		<Authors>Fadi Ksho</Authors>
+		<Description>`Fadi.Result` is a .NET library that provides a standardized way to handle results and errors in applications. It is designed to make error handling more consistent and easier to manage.</Description>
+		<PackageProjectUrl>https://github.com/fadiksho/Fadi.Result</PackageProjectUrl>
+		<PackageTags>.NET, library, Fadi.Result</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.25">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="MinVer" Version="6.0.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<!--- Supported format: png, jpg, Recommended dimensions: 128x128, Maximum size: 1MB-->
+		<None Include="..\icon.png" Pack="true" PackagePath="" />
+		<None Include="..\README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+</Project>
