@@ -28,9 +28,9 @@ public static class ResultSerializations
 		public void ReturnsTrueForSuccessfulResult()
 		{
 			var successful = Result.FromSuccess("Dummy message");
-			byte[] serializedData = Encoding.Default.GetBytes(JsonSerializer.Serialize(successful));
+			byte[] serializedData = Encoding.Default.GetBytes(JsonSerializer.Serialize(successful, _jsonOptions));
 
-			var response = JsonSerializer.Deserialize<Result>(serializedData);
+			var response = JsonSerializer.Deserialize<Result<Unit>>(serializedData, _jsonOptions);
 
 			Assert.That(response.IsSuccess, Is.True);
 		}
@@ -39,9 +39,9 @@ public static class ResultSerializations
 		public void ReturnsTrueForSuccessfulGenericResult()
 		{
 			var successful = Result<ModelTest>.FromSuccess(new ModelTest("Dummy value"));
-			byte[] serializedData = Encoding.Default.GetBytes(JsonSerializer.Serialize(successful));
+			byte[] serializedData = Encoding.Default.GetBytes(JsonSerializer.Serialize(successful, _jsonOptions));
 
-			var response = JsonSerializer.Deserialize<Result<ModelTest>>(serializedData);
+			var response = JsonSerializer.Deserialize<Result<ModelTest>>(serializedData, _jsonOptions);
 
 			Assert.That(response.IsSuccess, Is.True);
 		}
@@ -77,7 +77,7 @@ public static class ResultSerializations
 			var successful = Result.FromSuccess("Dummy message");
 			byte[] serializedData = Encoding.Default.GetBytes(JsonSerializer.Serialize(successful));
 
-			var response = JsonSerializer.Deserialize<Result>(serializedData);
+			var response = JsonSerializer.Deserialize<Result<Unit>>(serializedData);
 
 			Assert.That(response.SuccessMessage, Is.EqualTo("Dummy message"));
 		}
@@ -88,7 +88,7 @@ public static class ResultSerializations
 			var successful = Result.FromSuccess("Dummy message");
 			byte[] serializedData = Encoding.Default.GetBytes(JsonSerializer.Serialize(successful));
 
-			var response = JsonSerializer.Deserialize<Result<string>>(serializedData);
+			var response = JsonSerializer.Deserialize<Result<Unit>>(serializedData);
 			Assert.That(response.SuccessMessage, Is.EqualTo("Dummy message"));
 		}
 
@@ -105,7 +105,7 @@ public static class ResultSerializations
 		[Test]
 		public void NotEmptyOnDeserializingEntityResultUsingFromSuccessWithMessage()
 		{
-			var successful = Result<Guid>.FromSuccessWithMessage(Guid.NewGuid(), "Dummy message");
+			var successful = Result<Guid>.FromSuccess(Guid.NewGuid(), "Dummy message");
 			byte[] serializedData = Encoding.Default.GetBytes(JsonSerializer.Serialize(successful));
 
 			var response = JsonSerializer.Deserialize<Result<string>>(serializedData);
