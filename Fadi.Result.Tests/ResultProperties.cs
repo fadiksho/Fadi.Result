@@ -6,6 +6,22 @@ public class ResultProperties
 	[TestCase]
 	public void WhenCreatedFromError()
 	{
+		Result<Unit> result = Result.FromError(new ResultError("error"));
+
+		Assert.Multiple(() =>
+		{
+			Assert.That(result.IsSuccess, Is.False);
+			Assert.That(result.Entity, Is.InstanceOf<Unit>());
+			Assert.That(result.IsDefined, Is.True);
+			Assert.That(result.SuccessMessage, Is.Null);
+			Assert.That(result.Error, Is.Not.Null);
+			Assert.That(result.Error, Is.InstanceOf<ResultError>());
+		});
+	}
+
+	[TestCase]
+	public void WhenCreatedFromErrorGeneric()
+	{
 		Result<DummyEntity> result = Result<DummyEntity>.FromError(new ResultError("error"));
 
 		Assert.Multiple(() =>
@@ -20,7 +36,7 @@ public class ResultProperties
 	}
 
 	[TestCase]
-	public void WhenCreatedFromSuccess()
+	public void WhenCreatedFromSuccessGeneric()
 	{
 		Result<DummyEntity> result = Result<DummyEntity>.FromSuccess(new DummyEntity());
 
@@ -36,10 +52,10 @@ public class ResultProperties
 	}
 
 	[TestCase]
-	public void WhenCreatedFromSuccessWithMessage()
+	public void WhenCreatedFromSuccessWithMessageGeneric()
 	{
 		Result<DummyEntity> result =
-			Result<DummyEntity>.FromSuccessWithMessage(new DummyEntity(), "success");
+			Result<DummyEntity>.FromSuccess(new DummyEntity(), "success");
 
 		Assert.Multiple(() =>
 		{
@@ -55,8 +71,7 @@ public class ResultProperties
 	[TestCase]
 	public void WhenDefined()
 	{
-		Result result = new();
-
+		Result<Unit> result = default;
 		Assert.Multiple(() =>
 		{
 			Assert.That(result.IsSuccess, Is.False);
@@ -68,7 +83,7 @@ public class ResultProperties
 	}
 
 	[TestCase]
-	public void WhenDefinedGenric()
+	public void WhenDefinedGeneric()
 	{
 		Result<DummyEntity> result = new();
 

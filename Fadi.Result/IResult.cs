@@ -1,18 +1,23 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿namespace Fadi.Result;
 
-namespace Fadi.Result;
-
-public interface IResult
+public interface IResult<T>
 {
 	bool IsSuccess { get; }
 	bool IsFailed { get; }
 	bool IsDefined { get; }
-	string SuccessMessage { get; }
-	IResultError? Error { get; }
-}
 
-public interface IResult<out TEntity> : IResult
-{
-	[AllowNull]
-	TEntity Entity { get; }
+	/// <summary>
+	/// Optional success message
+	/// </summary>
+	string? SuccessMessage { get; }
+
+	/// <summary>
+	/// Polymorphic error
+	/// </summary>
+	IResultError? Error { get; }
+
+	/// <summary>
+	/// the value (Unit if none)
+	/// </summary>
+	T Entity { get; }
 }
