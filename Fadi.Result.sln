@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fadi.Result", "Fadi.Result\Fadi.Result.csproj", "{2D51FE9F-BE50-40F7-BCBD-16A77C8B8049}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fadi.Result.Tests", "Fadi.Result.Tests\Fadi.Result.Tests.csproj", "{956408C8-D66E-4849-8C08-DE9C308B35F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{18B908CB-072F-410B-BD81-FBEB78C969BE}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+		icon.png = icon.png
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{1B083FB3-AD1C-4D2D-9AC5-47226FCE0F26}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{A96F46F8-B8A3-4562-B95A-0404865FAD70}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\CI.yml = .github\workflows\CI.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D51FE9F-BE50-40F7-BCBD-16A77C8B8049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D51FE9F-BE50-40F7-BCBD-16A77C8B8049}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D51FE9F-BE50-40F7-BCBD-16A77C8B8049}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D51FE9F-BE50-40F7-BCBD-16A77C8B8049}.Release|Any CPU.Build.0 = Release|Any CPU
+		{956408C8-D66E-4849-8C08-DE9C308B35F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{956408C8-D66E-4849-8C08-DE9C308B35F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{956408C8-D66E-4849-8C08-DE9C308B35F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{956408C8-D66E-4849-8C08-DE9C308B35F5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A96F46F8-B8A3-4562-B95A-0404865FAD70} = {1B083FB3-AD1C-4D2D-9AC5-47226FCE0F26}
+	EndGlobalSection
+EndGlobal
