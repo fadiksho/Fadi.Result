@@ -26,7 +26,7 @@ public class PolymorphicTypeResolver : DefaultJsonTypeInfoResolver
 					new JsonDerivedType(typeof(GenericError), nameof(GenericError)),
 					new JsonDerivedType(typeof(NotFoundError), nameof(NotFoundError)),
 					new JsonDerivedType(typeof(ValidationErrorResult), nameof(ValidationErrorResult)),
-					new JsonDerivedType(typeof(UnauthentectedError), nameof(UnauthentectedError)),
+					new JsonDerivedType(typeof(UnauthenticatedError), nameof(UnauthenticatedError)),
 					new JsonDerivedType(typeof(UnauthorizedError), nameof(UnauthorizedError)),
 				}
 			};

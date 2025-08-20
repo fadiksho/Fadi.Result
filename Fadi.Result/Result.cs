@@ -5,46 +5,48 @@ namespace Fadi.Result;
 
 public readonly record struct Result : IResult
 {
-	[MemberNotNullWhen(false, nameof(Error))]
-	public readonly bool IsSuccess => Error is null && IsDefined;
+	public bool IsSuccess { get; }
 
-	public readonly bool IsFailed => !IsSuccess && IsDefined;
+	[MemberNotNullWhen(true, nameof(Error))]
+	public bool IsFailed { get; }
 
 	[JsonIgnore]
 	public readonly bool IsDefined
 	{
 		get
 		{
-			if (Error is not null)
-				return true;
-
-			if (!string.IsNullOrEmpty(SuccessMessage))
-				return true;
-
-			return false;
+			return IsSuccess || IsFailed;
 		}
 	}
 
-	[MemberNotNullWhen(true, nameof(IsSuccess))]
-	public string SuccessMessage { get; }
+	public string? SuccessMessage { get; }
 
 	public IResultError? Error { get; }
 
 	[JsonConstructor]
-	public Result(string successMessage, IResultError? error)
+	public Result(bool isSuccess, bool isFailed, string? successMessage, IResultError? error)
 	{
+		IsSuccess = isSuccess;
+		IsFailed = isFailed;
+
+		if (isFailed && isSuccess)
+			throw new InvalidOperationException("A result cannot be both successful and failed at the same time.");
+
 		Error = error;
 		SuccessMessage = successMessage;
 	}
 
+	public static Result FromSuccess()
+			=> new(true, false, default, default);
+
 	public static Result FromSuccess(string successMessage)
-			=> new(successMessage, default);
+			=> new(true, false, successMessage, default);
 
 	public static Result FromError<TError>(TError error) where TError : IResultError
-			=> new(default!, error);
+			=> new(false, true, default, error);
 
 	public static implicit operator Result(ResultError error)
-			=> new(default!, error);
+			=> new(false, true, default, error);
 }
 
 public readonly record struct Result<TEntity> : IResult<TEntity>
@@ -52,55 +54,51 @@ public readonly record struct Result<TEntity> : IResult<TEntity>
 	[AllowNull]
 	public TEntity Entity { get; }
 
-	[MemberNotNullWhen(false, nameof(Error))]
 	[MemberNotNullWhen(true, nameof(Entity))]
-	public readonly bool IsSuccess => Error is null && IsDefined;
+	public bool IsSuccess { get; }
 
 	[MemberNotNullWhen(true, nameof(Error))]
-	public readonly bool IsFailed => !IsSuccess && IsDefined;
+	public bool IsFailed { get; }
 
 	[JsonIgnore]
 	public readonly bool IsDefined
 	{
 		get
 		{
-			if (Error is not null)
-				return true;
-
-			if (Entity is not null)
-				return true;
-
-			return false;
+			return IsSuccess || IsFailed;
 		}
 	}
 
-	[AllowNull]
-	public string SuccessMessage { get; }
+	public string? SuccessMessage { get; }
 
 	public IResultError? Error { get; }
 
 	[JsonConstructor]
-	public Result(TEntity? entity, IResultError? error, string? successMessage)
+	public Result(bool isSuccess, bool isFailed, TEntity? entity, IResultError? error, string? successMessage)
 	{
+		IsSuccess = isSuccess;
+		IsFailed = isFailed;
 		Error = error;
 		SuccessMessage = successMessage;
 		Entity = entity;
 	}
 
-	public static Result<TEntity> FromSuccess(TEntity entity) => new(entity, default, default);
+	public static Result<TEntity> FromSuccess(TEntity entity)
+		=> new(true, false, entity, default, default);
 
-	public static Result<TEntity> FromSuccessWithMessage(TEntity entity, string successMessage) => new(entity, default, successMessage);
+	public static Result<TEntity> FromSuccessWithMessage(TEntity entity, string successMessage)
+		=> new(true, false, entity, default, successMessage);
 
 	public static Result<TEntity> FromError<TError>(TError error) where TError : IResultError
-			=> new(default, error, default);
+			=> new(false, true, default, error, default);
 
 	public static implicit operator Result<TEntity>(TEntity? entity)
 	{
-		return new(entity, default, default);
+		return new(true, false, entity, default, default);
 	}
 
 	public static implicit operator Result<TEntity>(ResultError error)
 	{
-		return new(default, error, default);
+		return new(false, true, default, error, default);
 	}
 }
