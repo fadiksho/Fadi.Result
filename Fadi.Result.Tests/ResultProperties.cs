@@ -3,83 +3,139 @@ public class ResultProperties
 {
 	public record DummyEntity { }
 
-	[TestCase]
-	public void WhenCreatedFromError()
+	public class NonGeneric
 	{
-		Result<DummyEntity> result = Result<DummyEntity>.FromError(new ResultError("error"));
-
-		Assert.Multiple(() =>
+		[TestCase]
+		public void WhenCreatedFromError()
 		{
-			Assert.That(result.IsSuccess, Is.False);
-			Assert.That(result.Entity, Is.Null);
-			Assert.That(result.IsDefined, Is.True);
-			Assert.That(result.SuccessMessage, Is.Null);
-			Assert.That(result.Error, Is.Not.Null);
-			Assert.That(result.Error, Is.InstanceOf<ResultError>());
-		});
+			Result result = Result.FromError(new ResultError("error"));
+
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.IsSuccess, Is.False);
+				Assert.That(result.IsDefined, Is.True);
+				Assert.That(result.SuccessMessage, Is.Null);
+				Assert.That(result.Error, Is.Not.Null);
+				Assert.That(result.Error, Is.InstanceOf<ResultError>());
+				Assert.That(result.Error?.Message, Is.EqualTo("error"));
+			});
+		}
+
+		[TestCase]
+		public void WhenCreatedFromSuccess()
+		{
+			Result result = Result.FromSuccess();
+
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.IsSuccess, Is.True);
+				Assert.That(result.IsFailed, Is.False);
+				Assert.That(result.IsDefined, Is.True);
+				Assert.That(result.Error, Is.Null);
+				Assert.That(result.SuccessMessage, Is.Null);
+			});
+		}
+
+		[TestCase]
+		public void WhenCreatedFromSuccessWithSuccessMessage()
+		{
+			Result result = Result.FromSuccess("success");
+
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.IsSuccess, Is.True);
+				Assert.That(result.IsFailed, Is.False);
+				Assert.That(result.IsDefined, Is.True);
+				Assert.That(result.Error, Is.Null);
+				Assert.That(result.SuccessMessage, Is.EqualTo("success"));
+			});
+		}
+
+		[TestCase]
+		public void WhenDefined()
+		{
+			Result result = new();
+
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.IsSuccess, Is.False);
+				Assert.That(result.IsFailed, Is.False);
+				Assert.That(result.IsDefined, Is.False);
+				Assert.That(result.Error, Is.Null);
+				Assert.That(result.SuccessMessage, Is.Null);
+			});
+		}
 	}
 
-	[TestCase]
-	public void WhenCreatedFromSuccess()
+	public class Generic
 	{
-		Result<DummyEntity> result = Result<DummyEntity>.FromSuccess(new DummyEntity());
-
-		Assert.Multiple(() =>
+		[TestCase]
+		public void WhenCreatedFromError()
 		{
-			Assert.That(result.IsSuccess, Is.True);
-			Assert.That(result.IsFailed, Is.False);
-			Assert.That(result.IsDefined, Is.True);
-			Assert.That(result.Entity, Is.Not.Null);
-			Assert.That(result.Entity, Is.InstanceOf<DummyEntity>());
-			Assert.That(result.SuccessMessage, Is.Null);
-		});
-	}
+			Result<DummyEntity> result = Result<DummyEntity>.FromError(new ResultError("error"));
 
-	[TestCase]
-	public void WhenCreatedFromSuccessWithMessage()
-	{
-		Result<DummyEntity> result =
-			Result<DummyEntity>.FromSuccessWithMessage(new DummyEntity(), "success");
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.IsSuccess, Is.False);
+				Assert.That(result.IsFailed, Is.True);
+				Assert.That(result.Entity, Is.Null);
+				Assert.That(result.IsDefined, Is.True);
+				Assert.That(result.SuccessMessage, Is.Null);
+				Assert.That(result.Error, Is.Not.Null);
+				Assert.That(result.Error, Is.InstanceOf<ResultError>());
+				Assert.That(result.Error?.Message, Is.EqualTo("error"));
+			});
+		}
 
-		Assert.Multiple(() =>
+		[TestCase]
+		public void WhenCreatedFromSuccess()
 		{
-			Assert.That(result.IsSuccess, Is.True);
-			Assert.That(result.IsFailed, Is.False);
-			Assert.That(result.IsDefined, Is.True);
-			Assert.That(result.Entity, Is.Not.Null);
-			Assert.That(result.Entity, Is.InstanceOf<DummyEntity>());
-			Assert.That(result.SuccessMessage, Is.Not.Null);
-		});
-	}
+			Result<DummyEntity> result = Result<DummyEntity>.FromSuccess(new DummyEntity());
 
-	[TestCase]
-	public void WhenDefined()
-	{
-		Result result = new();
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.IsSuccess, Is.True);
+				Assert.That(result.IsFailed, Is.False);
+				Assert.That(result.IsDefined, Is.True);
+				Assert.That(result.Entity, Is.Not.Null);
+				Assert.That(result.Entity, Is.InstanceOf<DummyEntity>());
+				Assert.That(result.Error, Is.Null);
+				Assert.That(result.SuccessMessage, Is.Null);
+			});
+		}
 
-		Assert.Multiple(() =>
+		[TestCase]
+		public void WhenCreatedFromSuccessWithSuccessMessage()
 		{
-			Assert.That(result.IsSuccess, Is.False);
-			Assert.That(result.IsFailed, Is.False);
-			Assert.That(result.IsDefined, Is.False);
-			Assert.That(result.Error, Is.Null);
-			Assert.That(result.SuccessMessage, Is.Null);
-		});
-	}
+			Result<DummyEntity> result =
+				Result<DummyEntity>.FromSuccessWithMessage(new DummyEntity(), "success");
 
-	[TestCase]
-	public void WhenDefinedGenric()
-	{
-		Result<DummyEntity> result = new();
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.IsSuccess, Is.True);
+				Assert.That(result.IsFailed, Is.False);
+				Assert.That(result.IsDefined, Is.True);
+				Assert.That(result.Entity, Is.Not.Null);
+				Assert.That(result.Entity, Is.InstanceOf<DummyEntity>());
+				Assert.That(result.Error, Is.Null);
+				Assert.That(result.SuccessMessage, Is.Not.Null);
+			});
+		}
 
-		Assert.Multiple(() =>
+		[TestCase]
+		public void WhenDefinedGeneric()
 		{
-			Assert.That(result.IsSuccess, Is.False);
-			Assert.That(result.IsFailed, Is.False);
-			Assert.That(result.IsDefined, Is.False);
-			Assert.That(result.Error, Is.Null);
-			Assert.That(result.Entity, Is.Null);
-			Assert.That(result.SuccessMessage, Is.Null);
-		});
+			Result<DummyEntity> result = new();
+
+			Assert.Multiple(() =>
+			{
+				Assert.That(result.IsSuccess, Is.False);
+				Assert.That(result.IsFailed, Is.False);
+				Assert.That(result.IsDefined, Is.False);
+				Assert.That(result.Error, Is.Null);
+				Assert.That(result.Entity, Is.Null);
+				Assert.That(result.SuccessMessage, Is.Null);
+			});
+		}
 	}
 }

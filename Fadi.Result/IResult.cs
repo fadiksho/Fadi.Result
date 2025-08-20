@@ -7,7 +7,7 @@ public interface IResult
 	bool IsSuccess { get; }
 	bool IsFailed { get; }
 	bool IsDefined { get; }
-	string SuccessMessage { get; }
+	string? SuccessMessage { get; }
 	IResultError? Error { get; }
 }
 

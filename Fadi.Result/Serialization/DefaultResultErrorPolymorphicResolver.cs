@@ -14,7 +14,7 @@ public class DefaultResultErrorPolymorphicResolver : IResultErrorPolymorphicReso
 		new(typeof(GenericError), nameof(GenericError)),
 		new(typeof(NotFoundError), nameof(NotFoundError)),
 		new(typeof(ValidationErrorResult), nameof(ValidationErrorResult)),
-		new(typeof(UnauthentectedError), nameof(UnauthentectedError)),
+		new(typeof(UnauthenticatedError), nameof(UnauthenticatedError)),
 		new(typeof(UnauthorizedError), nameof(UnauthorizedError)),
 		new(typeof(ResultError), nameof(ResultError)),
 	];
